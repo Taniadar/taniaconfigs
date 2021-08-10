@@ -1,0 +1,4 @@
+---
+  hostname: "frontweb2"
+  front: "true"
+  back: "false"

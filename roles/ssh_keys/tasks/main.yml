@@ -1,0 +1,11 @@
+---
+  - name: Set authorized_keys admin keys
+    authorized_key:
+      user: '{{ remote_user }}'
+      state: present
+      key: '{{ item }}'  
+    with_file:
+      - keys/id_rsa_joraman.pub
+      - keys/id_rsa_tania.pub
+    tags:
+      - add_sshkeys

@@ -1,0 +1,49 @@
+---
+    - name: install nfs-utils
+      yum: name=nfs-utils state=latest
+
+    - name: install rpcbind
+      yum: name=rpcbind state=latest
+
+
+    - name: Create a mountable directory if it does not exist
+      file:
+        path: /var/www/html_front
+        state: directory
+        owner: root
+        group: root
+        mode: '0777'
+
+    - name: Create a mountable directory if it does not exist
+      file:
+        path: /var/www/html_back
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+
+    - name: Create a mountable directory if it does not exist
+      file:
+        path: /var/www/configs
+        state: directory
+        owner: root
+        group: root
+        mode: '0775'
+   
+    - name: Copy exports file.
+      template:
+        src: template/exports.j2
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: NFS apply change configure
+      shell: systemctl reload nfs;exportfs -a
+
+
+    - name: start nfs-server.service
+      service:
+        name: nfs-server
+        state: started
+       

@@ -1,2 +1,4 @@
 ---
   ntp_timezone: "Europe/Madrid"
+  remote_user: "root"
+        

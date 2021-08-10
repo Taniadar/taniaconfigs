@@ -1,0 +1,23 @@
+---
+  - name: Create a mountable directory if it does not exist
+    file:
+      path: /var/www/html
+      state: directory
+      owner: root
+      group: root
+      mode: '0777'
+
+  - name: Open ports
+    shell: sudo firewall-cmd --permanent --add-service=nfs
+
+  - name: Open ports rpcbind
+    shell: sudo firewall-cmd --permanent --add-service=rpc-bind
+
+  - name: Open port mountd
+    shell: sudo firewall-cmd --permanent --add-service=mountd
+
+  - name: Reload firewall
+    shell: sudo firewall-cmd --reload
+
+  - name: Mount volumn
+    shell: sudo mount 192.168.122.118:/var/www/html_back /var/www/html

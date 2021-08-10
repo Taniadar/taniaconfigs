@@ -1,7 +1,19 @@
 --- 
-    - hosts: all
-      become: true
-      roles:
-        - install_vim
-        - time_zone
+  - hosts: all
+    become: true
+    roles:
+      - ssh_keys
+      - time_zone
+      - set_hostname
+
+  - hosts: storage1
+    become: true
+    roles:
+        - nfs_export
+
+  - hosts: front,back
+    become: true
+    roles: 
+        - install_apache
+        - nfs_client
 

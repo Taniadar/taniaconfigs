@@ -1,0 +1,21 @@
+---
+  - name: install httpd
+    dnf: name=httpd state=latest
+
+  - name: Enable service
+    service:
+      name: httpd
+      state: started
+
+  - name: Create firewall rule for apache service
+    firewalld:
+      service: http
+      zone: public
+      permanent: yes
+      immediate: yes
+      state: enabled
+
+  - name: Restart apache service
+    service:
+      name: httpd
+      state: restarted
