@@ -47,9 +47,11 @@
       - php-gd
       - php-gettext
       - php-pear
+      - php72-php-phpiredis
+      - php-bcmath
       - php-soap
-      #- php-phpseclib
-      #- php-tcpdf
+      #- php72-php-phpseclib-net-sftp
+      #- php72-php-tcpdf
   
       enablerepo: "remi-php72,epel"
 
@@ -67,7 +69,6 @@
         packages: 
          - httpd
          - httpd-devel
-         - debhelper
          - htop
          - vim
          - tmux
@@ -82,9 +83,10 @@
          #- python-mysqlclient
          #- libapache2-mod-fcgid
          #- libapache2-mod-php
-         - iotop
-         #- language-pack-ca-base 
-         #- locales
+         - iotop 
+         - glibc-common
+         - glibc-langpack-ca
+         - glibc-langpack-es
          - lftp
          
   - name: Update all packages to the latest version

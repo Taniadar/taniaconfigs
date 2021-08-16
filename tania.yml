@@ -15,3 +15,6 @@
         #- nfs_client
         - packages_front_back
         #- composer
+  - hosts: haproxy
+    roles:
+        - haproxy

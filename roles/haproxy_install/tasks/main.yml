@@ -1,4 +1,4 @@
 - name: Install HA
-  apt:
-    name: vim
+  yum:
+    name: haproxy
     state: present
