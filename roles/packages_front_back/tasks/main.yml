@@ -67,6 +67,7 @@
         packages: 
          - httpd
          - httpd-devel
+         - debhelper
          - htop
          - vim
          - tmux
