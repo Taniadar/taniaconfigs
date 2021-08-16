@@ -1,0 +1,37 @@
+---
+
+- name: download remi-mysql repo
+  get_url: url=http://rpms.famillecollet.com/enterprise/6/test/x86_64/compat-mysql55-5.5.11-1.el6.remi.x86_64.rpm dest=/tmp/compat-mysql5.5.11.remi.rpm
+  tags: mysql
+
+- name: install remi-mysql repo
+  shell: /bin/rpm -Uvh /tmp/compat-mysql5.5.11.remi.rpm
+  register: remi_mysql_repo_result
+  failed_when: "'conflict' in remi_mysql_repo_result.stderr"
+  tags: mysql
+
+- name: install MySQL
+  yum: name={{item}} state=present
+  with_items:
+  - mysql
+  - mysql-server
+  - mysql-common
+  - mysql-client
+  tags:
+  - mysql
+  - mysql-service
+
+- name: run MySQL
+  service: name=mysqld state=started enabled=yes
+  tags:
+  - mysql
+  - mysql-service
+
+- name: install required python MySQLdb lib to create databases and users
+  yum: name={{item}} state=present
+  with_items:
+      - gcc-c++
+      - MySQL-python
+  tags:
+  - mysql
+  - mysql-dependencies

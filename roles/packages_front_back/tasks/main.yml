@@ -1,0 +1,93 @@
+---
+
+  - name: Enable EPEL Repository on CentOS 8
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Import EPEL GPG key.
+    rpm_key:
+      key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+      state: present
+     
+  - name: Remi repo
+    yum:
+      name: http://rpms.remirepo.net/enterprise/remi-release-8.rpm
+      state: present
+
+  - name: Import remi GPG key.
+    rpm_key:
+      key: http://rpms.remirepo.net/RPM-GPG-KEY-remi
+      state: present
+
+  - name: Install yum utils
+    yum:
+      name: yum-utils
+      state: latest
+
+  - name: Enable remi repo for PHP 7.2.
+    yum:
+      name:
+      - php
+      - php-cli
+      - php-common
+      - php-fpm
+      - php-curl
+      - php-devel
+      - php-gd
+      - php-json
+      - php-mbstring
+      - php-mysqlnd
+      - php-opcache
+      - php-readline
+      - php-xml
+      - php-zip
+      - php-bcmath
+      - php-apcu
+      - php-gd
+      - php-gettext
+      - php-pear
+      - php-soap
+      #- php-phpseclib
+      #- php-tcpdf
+  
+      enablerepo: "remi-php72,epel"
+
+  - name: Ensure dnf-plugins are installed on CentOS 8+.
+    yum:
+      name: dnf-plugins-core
+      state: present
+
+  - name: Install packages
+    yum:
+      name={{ packages }}
+      state=present
+      update_cache=yes
+    vars:
+        packages: 
+         - httpd
+         - httpd-devel
+         - htop
+         - vim
+         - tmux
+         - curl
+         - git
+         - zip
+         - unzip
+         - mysql
+         #- libapache2-mod-php
+         #- dh-php
+         #- libapache2-mod-php
+         #- python-mysqlclient
+         #- libapache2-mod-fcgid
+         #- libapache2-mod-php
+         - iotop
+         #- language-pack-ca-base 
+         #- locales
+         - lftp
+         
+  - name: Update all packages to the latest version
+    yum:
+      name: '*'
+      state: latest
+
