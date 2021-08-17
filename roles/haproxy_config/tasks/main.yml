@@ -1,0 +1,51 @@
+---
+  - name: Copiar configuració al seu lloc
+    template:
+     dest: "/etc/haproxy/haproxy.cfg"
+     src: "templates/haproxy_config.j2"
+     group: "root"
+     owner: "root"
+     mode: "0644"
+
+  - name: Creates directory
+    file:
+      path: /etc/haproxy/errors/
+      state: directory
+
+  - name: Create files
+    shell: touch /etc/haproxy/errors/{400,403,408,500,502,503,504}.http
+
+  - name: Create files
+    shell: chmod 644 /etc/haproxy/errors/{400,403,408,500,502,503,504}.http
+
+
+  - name: crear /run/haproxy
+    file:
+      path: /run/haproxy/
+      state: directory
+
+  - name: crear admin.sock
+    shell: touch /run/haproxy/admin.sock
+
+  - name: Obrir port 8181
+    firewalld:
+      zone: public
+      port: 8181/tcp
+      permanent: true
+      state: enabled
+
+
+  - name: Reiniciar servei firewalld
+    service:
+     enabled: "yes"
+     name: "firewalld"
+     state: "restarted"
+
+
+
+  - name: Reiniciar servei
+    service:
+     enabled: "yes"
+     name: "haproxy"
+     state: "restarted"
+

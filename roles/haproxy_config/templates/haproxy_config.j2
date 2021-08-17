@@ -1,90 +1,77 @@
-#---------------------------------------------------------------------
-# Example configuration for a possible web application.  See the
-# full configuration options online.
-#
-#   https://www.haproxy.org/download/1.8/doc/configuration.txt
-#
-#---------------------------------------------------------------------
-
-#---------------------------------------------------------------------
-# Global settings
-#---------------------------------------------------------------------
+# Ansible managed. Do not edit by hand!
 global
-    # to have these messages end up in /var/log/haproxy.log you will
-    # need to:
-    #
-    # 1) configure syslog to accept network log events.  This is done
-    #    by adding the '-r' option to the SYSLOGD_OPTIONS in
-    #    /etc/sysconfig/syslog
-    #
-    # 2) configure local2 events to go to the /var/log/haproxy.log
-    #   file. A line like the following can be added to
-    #   /etc/sysconfig/syslog
-    #
-    #    local2.*                       /var/log/haproxy.log
-    #
-    log         127.0.0.1 local2
-
-    chroot      /var/lib/haproxy
-    pidfile     /var/run/haproxy.pid
-    maxconn     4000
-    user        haproxy
-    group       haproxy
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    chroot /var/lib/haproxy
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+    stats timeout 30s
+    user haproxy
+    group haproxy
     daemon
-
-    # turn on stats unix socket
-    stats socket /var/lib/haproxy/stats
-
-    # utilize system-wide crypto-policies
-    ssl-default-bind-ciphers PROFILE=SYSTEM
-    ssl-default-server-ciphers PROFILE=SYSTEM
-
-#---------------------------------------------------------------------
-# common defaults that all the 'listen' and 'backend' sections will
-# use if not designated in their block
-#---------------------------------------------------------------------
+    # Default SSL material locations
+    ca-base /etc/ssl/certs
+    crt-base /etc/ssl/private
+    # Default ciphers to use on SSL-enabled listening sockets.
+    # For more information, see ciphers(1SSL). This list is from:
+    #  https://hynek.me/articles/hardening-your-web-servers-ssl-ciphers/
+    ssl-default-bind-ciphers ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+    ssl-default-bind-options no-sslv3
 defaults
-    mode                    http
-    log                     global
-    option                  httplog
-    option                  dontlognull
-    option http-server-close
-    option forwardfor       except 127.0.0.0/8
-    option                  redispatch
-    retries                 3
-    timeout http-request    10s
-    timeout queue           1m
-    timeout connect         10s
-    timeout client          1m
-    timeout server          1m
-    timeout http-keep-alive 10s
-    timeout check           10s
-    maxconn                 3000
+    log global
+    mode    http
+#   option  httplog
+    option  dontlognull
+        timeout connect 5000
+        timeout client  50m
+        timeout server  50m
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+listen stats
+   bind *:8181
+   stats enable
+   stats uri /
+   stats realm Haproxy\ Statistics
+   stats auth sysadmin:7075c7ba
+#listen galera-cluster
+    #bind *:3306
+    #mode tcp
+    #balance leastconn
+    #default-server inter 2s downinter 5s rise 3 fall 2 #slowstart 60s maxconn 256 maxqueue 128 weight 100
+    #server db1 db1.basecamp.nemon:3306 check weight 1
+    #server db2 db2.basecamp.nemon:3306 check weight 1
+    #server db3 db3.basecamp.nemon:3306 check weight 1
+#frontend apaches
+#   bind *:80
+#   mode http
+#   balance roundrobin
+#   use_backend front-test if { hdr(host) -i front-test.basecamp.nemon }
+#   default_backend back-test
+#
+#
 
-#---------------------------------------------------------------------
-# main frontend which proxys to the backends
-#---------------------------------------------------------------------
-frontend main
-    bind *:5000
-    acl url_static       path_beg       -i /static /images /javascript /stylesheets
-    acl url_static       path_end       -i .jpg .gif .png .css .js
+backend front-test
+   https-request redirect scheme http
+   server front1 front1.basecamp.lab:80 check
+   server front2 front2.basecamp.lab:80 check
+   server front3 front3.basecamp.lab:80 check
 
-    use_backend static          if url_static
-    default_backend             app
+backend back-test
+   server back1 back1.basecamp.lab:80 check
+   server back2 back2.basecamp.lab:80 check
+   server back3 back3.basecamp.lab:80 check
 
-#---------------------------------------------------------------------
-# static backend for serving up images, stylesheets and such
-#---------------------------------------------------------------------
-backend static
-    balance     roundrobin
-    server      static 127.0.0.1:4331 check
-
-#---------------------------------------------------------------------
-# round robin balancing between the various backends
-#---------------------------------------------------------------------
-backend app
-    balance     roundrobin
-    server  app1 127.0.0.1:5001 check
-    server  app2 127.0.0.1:5002 check
-    server  app3 127.0.0.1:5003 check
-    server  app4 127.0.0.1:5004 check
+#listen rabbit-local-cluster
+#   bind *:5672
+#   mode tcp
+#   balance leastconn
+#   option clitcpka
+#   timeout client  3h
+#    timeout server  3h
+#
+#    server rabbit-local rabbit-local.basecamp.nemon:5671 check weight 1
+#    server rabbit-local2 rabbit-local2.basecamp.nemon:5671 check weight 1

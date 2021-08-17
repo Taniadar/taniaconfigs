@@ -17,4 +17,13 @@
         #- composer
   - hosts: haproxy
     roles:
-        - haproxy
+        - haproxy_install
+    tags: 
+      - install
+
+  - hosts: haproxy
+    roles:
+
+        - haproxy_config
+    tags:
+      - config
