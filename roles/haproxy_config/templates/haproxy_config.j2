@@ -36,7 +36,7 @@ listen stats
    stats enable
    stats uri /
    stats realm Haproxy\ Statistics
-   stats auth sysadmin:7075c7ba
+   stats auth {{ user_web_haproxy }}:{{ password_web_haproxy }}
 #listen galera-cluster
     #bind *:3306
     #mode tcp
