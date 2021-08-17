@@ -45,22 +45,21 @@ listen stats
     #server db1 db1.basecamp.nemon:3306 check weight 1
     #server db2 db2.basecamp.nemon:3306 check weight 1
     #server db3 db3.basecamp.nemon:3306 check weight 1
-#frontend apaches
-#   bind *:80
-#   mode http
-#   balance roundrobin
-#   use_backend front-test if { hdr(host) -i front-test.basecamp.nemon }
-#   default_backend back-test
-#
-#
+
+frontend apaches
+   bind *:80
+   mode http
+   balance roundrobin
+   use_backend front-test if { hdr(host) -i front-test.basecamp.lab }
+   default_backend back-test
 
 backend front-test
-   https-request redirect scheme http
    server front1 front1.basecamp.lab:80 check
    server front2 front2.basecamp.lab:80 check
    server front3 front3.basecamp.lab:80 check
 
 backend back-test
+   balance leastconn
    server back1 back1.basecamp.lab:80 check
    server back2 back2.basecamp.lab:80 check
    server back3 back3.basecamp.lab:80 check

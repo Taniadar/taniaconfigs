@@ -34,6 +34,27 @@
       permanent: true
       state: enabled
 
+  - name: Obrir port 80
+    firewalld:
+      zone: public
+      port: 80/tcp
+      permanent: true
+      state: enabled
+
+  - name: Obrir port 3306
+    firewalld:
+      zone: public
+      port: 3306/tcp
+      permanent: true
+      state: enabled
+
+  - name: Obrir port 443
+    firewalld:
+      zone: public
+      port: 443/tcp
+      permanent: true
+      state: enabled
+
 
   - name: Reiniciar servei firewalld
     service:
@@ -41,9 +62,7 @@
      name: "firewalld"
      state: "restarted"
 
-
-
-  - name: Reiniciar servei
+  - name: Reiniciar servei haproxy
     service:
      enabled: "yes"
      name: "haproxy"
