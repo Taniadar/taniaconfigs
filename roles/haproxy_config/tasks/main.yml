@@ -41,6 +41,13 @@
       permanent: true
       state: enabled
 
+  - name: Obrir port 80
+    firewalld:
+      zone: internal
+      port: 80/tcp
+      permanent: true
+      state: enabled
+
   - name: Obrir port 3306
     firewalld:
       zone: public

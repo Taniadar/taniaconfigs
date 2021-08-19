@@ -1,0 +1,27 @@
+---
+
+  - name: Copiar vhost_front
+    template:
+      src: templates/vhost_front.j2
+      dest: /etc/httpd/sites-available/test-trade.conf
+      owner: root
+      group: root
+      mode: 0644
+    when: "'front' in group_names"
+
+  - name: Copiar vhost_back
+    template:
+      src: templates/vhost_back.j2
+      dest: /etc/httpd/sites-available/test-trade.conf
+      owner: root
+      group: root
+      mode: 0644
+    when: "'back' in group_names"
+
+  - name: Enllaços simbòlics 
+    shell: ln -s /etc/httpd/sites-available/test-trade.conf /etc/httpd/sites-enabled/test-trade.conf
+    
+  - name: Restart apache service
+    service:
+      name: httpd
+      state: restarted

@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+    ServerName  api-test-tradeenergy.basecamp.lab
+    ServerAlias www.api-test-tradeenergy.basecamp.lab
+    DocumentRoot /var/www/html/tradeenergy/
+    TimeOut 900
+    <Directory "/var/www/html/">
+        DirectoryIndex index.html index.php
+        AllowOverride All
+        Allow from All
+        Options FollowSymLinks
+        Require all granted
+    </Directory>
+    LogLevel notice
+    CustomLog "/var/log/httpd/api-test-tradeenergy.basecamp.lab.access.log" combined
+    ErrorLog "/var/log/httpd/api-test-tradeenergy.basecamp.lab.error.log"
+</VirtualHost>

@@ -1,0 +1,4 @@
+---
+  hostname: "balancer1"
+  front: "false"
+  back: "false"

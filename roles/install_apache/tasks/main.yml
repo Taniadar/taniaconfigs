@@ -15,7 +15,53 @@
       immediate: yes
       state: enabled
 
+  - name: Obrir port 80
+    firewalld:
+      zone: public
+      port: 80/tcp
+      permanent: true
+      state: enabled
+
+  - name: Obrir port 80
+    firewalld:
+      zone: internal
+      port: 80/tcp
+      permanent: true
+      state: enabled
+
+  - name: Obrir port 443
+    firewalld:
+      zone: public
+      port: 443/tcp
+      permanent: true
+      state: enabled
+
+  - name: Create directory
+    file:
+      path: /etc/httpd/sites-available
+      state: directory
+
+  - name: Create directory
+    file:
+      path: /etc/httpd/sites-enabled
+      state: directory
+
+  - name: Copiar config apache
+    template:
+      src: templates/httpd_conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Reiniciar servei firewalld
+    service:
+     enabled: "yes"
+     name: "firewalld"
+     state: "restarted"
+
   - name: Restart apache service
     service:
       name: httpd
       state: restarted
+

@@ -1,4 +1,5 @@
 ---
   ntp_timezone: "Europe/Madrid"
   remote_user: "root"
+  ip_nfs: "10.1.1.118"
         

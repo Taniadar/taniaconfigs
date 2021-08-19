@@ -1,20 +1,22 @@
 --- 
-  #- hosts: all
-    #roles:
-      #- ssh_keys
-      #- time_zone
-      #- set_hostname
-#
-  #- hosts: storage1
-    #roles:
-        #- nfs_export
+  - hosts: all
+    roles:
+      - ssh_keys
+      - time_zone
+      - set_hostname
+
+  - hosts: storage1
+    roles:
+        - nfs_export
 
   - hosts: front,back
     roles: 
-        #- install_apache
-        #- nfs_client
+        - install_apache
+        - nfs_client
         - packages_front_back
-        #- composer
+        - composer
+        - vhosts_httpd
+
   - hosts: haproxy
     roles:
         - haproxy_install
@@ -23,7 +25,6 @@
 
   - hosts: haproxy
     roles:
-
         - haproxy_config
     tags:
       - config
