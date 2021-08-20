@@ -50,8 +50,11 @@
       - php72-php-phpiredis
       - php-bcmath
       - php-soap
+      - php72-php-pecl-mcrypt
+      #- php-phpseclib
+      #- php-pear-math-bigintege
       #- php72-php-phpseclib-net-sftp
-      #- php72-php-tcpdf
+      #- php-tcpdf
   
       enablerepo: "remi-php72,epel"
 
@@ -77,12 +80,10 @@
          - zip
          - unzip
          - mysql
-         #- libapache2-mod-php
+         - mod_php
          #- dh-php
-         #- libapache2-mod-php
          #- python-mysqlclient
-         #- libapache2-mod-fcgid
-         #- libapache2-mod-php
+         - mod_fcgid
          - iotop 
          - glibc-common
          - glibc-langpack-ca
@@ -94,3 +95,5 @@
       name: '*'
       state: latest
 
+  - name: PECL install modules
+    command: pecl install xdebug

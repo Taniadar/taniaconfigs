@@ -1,0 +1,33 @@
+---
+  - name: Enable EPEL Repository on CentOS 8
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Import EPEL GPG key.
+    rpm_key:
+      key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
+      state: present
+
+  - name: Refrescar cache paquets yum
+    yum: update_cache=yes
+
+  - name: Add MariaDB repository
+    yum_repository:
+      name: mariadb
+      description: 'Mariadb repository'
+      baseurl: http://yum.mariadb.org/10.0/centos7-amd64/
+      gpgkey: https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+      gpgcheck: yes
+
+  - name: Install MariaDB-Galera-server, MariaDB-client, MYSQL-python and Galera
+    yum:
+      name: "{{ packages }}"
+      update_cache: yes
+      state: latest
+    vars:
+      packages:
+       - mariadb-server-galera
+       - mariadb-common
+       - galera
+       #- mysql-python

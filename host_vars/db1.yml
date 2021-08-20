@@ -1,0 +1,4 @@
+---
+  hostname: "db1"
+  front: "false"
+  back: "false"

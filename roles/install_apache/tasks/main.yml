@@ -60,6 +60,34 @@
      name: "firewalld"
      state: "restarted"
 
+  - name: Enable module rewrite
+    apache2_module:
+      state: present
+      name: rewrite
+
+  #- name: Enable module xml2enc
+    #apache2_module:
+      #state: present
+      #name: xml2enc
+
+  #- name: Enable module ssl
+    #apache2_module:
+      #state: present
+      #name: ssl
+
+  - name: Enable module headers
+    apache2_module:
+      state: present
+      name: headers
+
+  - name: Copy php.ini
+    template:
+      src: templates/httpd_php.ini.j2
+      dest: /etc/php.ini
+      owner: root
+      group: root
+      mode: 0644
+
   - name: Restart apache service
     service:
       name: httpd
