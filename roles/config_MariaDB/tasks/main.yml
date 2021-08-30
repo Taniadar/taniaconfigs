@@ -1,0 +1,18 @@
+---
+ - name: Set-up /etc/my.cnf.d/galera.cnf 
+   template: 
+    src: templates/mysqld.cnf.j2
+    dest: /etc/my.cnf.d/mariadb-server.cnf
+    mode: 0644
+    owner: root
+    group: root
+
+ - name: Set authorized_keys admin keys
+   authorized_key:
+     user: '{{ remote_user }}'
+     state: present
+     key: '{{ item }}'  
+   with_file:
+     - keys/id_rsa_db1.pub
+     - keys/id_rsa_db2.pub
+     - keys/id_rsa_db3.pub

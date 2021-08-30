@@ -31,6 +31,8 @@
       #
   - hosts: dbs
     roles:
+      - install_MariaDB
       - install_galeracluster
+      - config_MariaDB
     tags:
       - install_galera
