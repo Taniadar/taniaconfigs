@@ -48,6 +48,7 @@
       - php-gettext
       - php-pear
       - php72-php-phpiredis
+      - php72-php-pdo-dblib
       - php-bcmath
       - php-soap
       - php72-php-pecl-mcrypt
@@ -81,6 +82,11 @@
          - unzip
          - mysql
          - mod_php
+         - mod_perl
+         - mod_ssl
+         - mod_http2
+         - mod_fcgid
+         #- mod_wsgi
          #- dh-php
          #- python-mysqlclient
          - mod_fcgid

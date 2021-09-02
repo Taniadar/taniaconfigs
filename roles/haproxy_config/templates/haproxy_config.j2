@@ -41,7 +41,10 @@ listen stats
 frontend apaches
    bind *:80
    mode http
+   use_backend front-test if { hdr(host) -i front-test.basecamp.lab }
    use_backend front-test if { hdr(host) -i test-tradeenergy.basecamp.lab }
+   use_backend front-test if { hdr(host) -i test-crm.basecamp.lab }
+   use_backend front-test if { hdr(host) -i test-customerweb.basecamp.lab }
    default_backend back-test
 
 backend front-test
@@ -56,3 +59,12 @@ backend back-test
    server back2 back2.basecamp.lab:80 check
    server back3 back3.basecamp.lab:80 check
 
+listen galera-cluster
+    bind *:3306
+    mode tcp
+    balance leastconn
+    default-server inter 2s downinter 5s rise 3 fall 2 slowstart 60s maxconn 256 maxqueue 128 weight 100
+
+    server db1 db1.basecamp.lab:3306 check weight 1
+    server db2 db2.basecamp.lab:3306 check weight 1
+    server db3 db3.basecamp.lab:3306 check weight 1

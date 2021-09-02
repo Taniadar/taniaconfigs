@@ -1,4 +1,4 @@
-### Per a iniciar el servei galera
+### Per a iniciar el servei galera: https://www.digitalocean.com/community/tutorials/how-to-configure-a-galera-cluster-with-mariadb-10-1-on-ubuntu-16-04-servers
 
 Apagar servei mysqld
       
