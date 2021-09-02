@@ -2,10 +2,37 @@
   - name: install httpd
     dnf: name=httpd state=latest
 
-  - name: Enable service
-    service:
-      name: httpd
-      state: started
+  - name: Copiar config apache
+    template:
+      src: templates/httpd_conf.j2
+      dest: /etc/httpd/conf/httpd.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Copy 00-mpm.conf
+    template:
+      src: templates/00-mpm.conf.j2
+      dest: /etc/httpd/conf.modules.d/00-mpm.conf
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Copy php.ini
+    template:
+      src: templates/httpd_php.ini.j2
+      dest: /etc/php.ini
+      owner: root
+      group: root
+      mode: 0644
+
+  - name: Copy php.conf
+    template:
+      src: templates/php.conf.j2
+      dest: /etc/httpd/conf.d/php.conf
+      owner: root
+      group: root
+      mode: 0644
 
   - name: Create firewall rule for apache service
     firewalld:
@@ -46,13 +73,6 @@
       path: /etc/httpd/sites-enabled
       state: directory
 
-  - name: Copiar config apache
-    template:
-      src: templates/httpd_conf.j2
-      dest: /etc/httpd/conf/httpd.conf
-      owner: root
-      group: root
-      mode: 0644
 
   - name: Reiniciar servei firewalld
     service:
@@ -79,24 +99,14 @@
     #apache2_module:
       #state: present
       #name: headers
-
-  - name: Copy php.ini
-    template:
-      src: templates/httpd_php.ini.j2
-      dest: /etc/php.ini
-      owner: root
-      group: root
-      mode: 0644
+  
+  - name: Enable service
+    service:
+      name: httpd
+      state: started
 
   - name: Restart apache service
     service:
       name: httpd
       state: restarted
 
-  - name: Copy php.conf
-    template:
-      src: templates/php.conf.j2
-      dest: /etc/httpd/conf.d/php.conf
-      owner: root
-      group: root
-      mode: 0644

@@ -16,6 +16,7 @@
         - packages_front_back
         - composer
         - vhosts_httpd
+        - install_nodejs
     tags:
       - apache
 

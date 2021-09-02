@@ -1,0 +1,6 @@
+---
+  - name: Seleccionar versió
+    shell: dnf module enable nodejs:12
+
+  - name: Instal·lar nodejs12
+    shell: dnf install nodejs

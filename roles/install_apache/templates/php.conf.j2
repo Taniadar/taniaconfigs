@@ -24,9 +24,9 @@ DirectoryIndex index.php
     # Enable http authorization headers
     SetEnvIfNoCase ^Authorization$ "(.+)" HTTP_AUTHORIZATION=$1
 
-    <FilesMatch \.(php|phar)$>
-        SetHandler "proxy:unix:/run/php-fpm/www.sock|fcgi://localhost"
-    </FilesMatch>
+    #<FilesMatch \.(php|phar)$>
+        #SetHandler "proxy:unix:/run/php-fpm/www.sock|fcgi://localhost"
+    #</FilesMatch>
   </IfModule>
 </IfModule>
 

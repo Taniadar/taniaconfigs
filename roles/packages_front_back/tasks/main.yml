@@ -35,6 +35,7 @@
       - php-curl
       - php-devel
       - php-gd
+      - php-intl
       - php-json
       - php-mbstring
       - php-mysqlnd
@@ -45,6 +46,7 @@
       - php-bcmath
       - php-apcu
       - php-gd
+      - php72-php
       - php-gettext
       - php-pear
       - php72-php-phpiredis
@@ -84,7 +86,7 @@
          - mod_php
          - mod_perl
          - mod_ssl
-         - mod_http2
+        #- mod_http2
          - mod_fcgid
          #- mod_wsgi
          #- dh-php
