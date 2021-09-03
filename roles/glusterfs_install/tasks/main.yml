@@ -1,0 +1,26 @@
+---
+- name: Ensure dependencies are installed.
+  shell: dnf install centos-release-gluster -y
+
+#- name: Enable PowerTools
+  #shell: dnf config-manager --set-enabled PowerTools
+
+- name: Ensure Gluster packages are installed.
+  yum:
+    name:
+      - glusterfs-server
+      #- glusterfs-client
+    state: present
+
+- name: Start and enable GlusterFS
+  shell: systemctl enable --now glusterd
+
+- name: Allow GlusterFS on Firewall
+  shell: firewall-cmd --add-service=glusterfs --permanent
+
+- name: Allow GlusterFS on Firewall
+  shell: systemctl enable --now glusterd
+
+
+
+
