@@ -38,6 +38,19 @@
         group: root
         mode: 0644
 
+
+    - name: Open ports
+      shell: sudo firewall-cmd --permanent --add-service=nfs
+
+    - name: Open ports rpcbind
+      shell: sudo firewall-cmd --permanent --add-service=rpc-bind
+
+    - name: Open port mountd
+      shell: sudo firewall-cmd --permanent --add-service=mountd
+
+    - name: Reload firewall
+      shell: sudo firewall-cmd --reload
+
     - name: NFS apply change configure
       shell: systemctl reload nfs;exportfs -a
 

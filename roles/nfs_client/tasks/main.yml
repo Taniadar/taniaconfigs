@@ -1,6 +1,7 @@
 ---
   - name: install nfs-utils
     yum: name=nfs-utils state=latest
+
   - name: install nfs4-acl-tools
     yum: name=nfs4-acl-tools state=latest
 
@@ -25,7 +26,7 @@
     shell: sudo firewall-cmd --reload
 
   - name: Mount volumn
-    shell: sudo mount {{ ip_nfs }}:/var/www/configs /var/www/configs
+    shell: sudo mount {{ ip_nfs }}:/mnt/exports/configs /var/www/configs
 
   - include: front.yml
     when:  front == "true"

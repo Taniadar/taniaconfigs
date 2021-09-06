@@ -20,4 +20,4 @@
     shell: sudo firewall-cmd --reload
 
   - name: Mount volumn
-    shell: sudo mount {{ ip_nfs }}:/var/www/html_back /var/www/html
+    shell: sudo mount {{ ip_nfs }}:/mnt/exports/html_back /var/www/html

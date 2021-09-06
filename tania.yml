@@ -1,46 +1,46 @@
 --- 
-  - hosts: all
-    roles:
-      - ssh_keys
-      - time_zone
-      - set_hostname
-    tags:
-      - basic
-
+  #- hosts: all
+    #roles:
+      #- ssh_keys
+      #- time_zone
+      #- set_hostname
+    #tags:
+      #- basic
+#
   - hosts: storage
     roles:
-        #- nfs_export
-        - glusterfs_install
+        - nfs_export
+        #- glusterfs_install
     tags:
       - install_gfs
 
   - hosts: front,back
     roles: 
-        - install_apache
+        #- install_apache
         - nfs_client
-        - packages_front_back
-        - composer
-        - vhosts_httpd
-        - install_nodejs
+        #- packages_front_back
+        #- composer
+        #- vhosts_httpd
+        #- install_nodejs
     tags:
       - apache
 
-  - hosts: haproxy
-    roles:
-        - haproxy_install
-    tags: 
-      - haproxy_install
-
-  - hosts: haproxy
-    roles:
-        - haproxy_config
-    tags:
-      - haproxy_config
-      
-  - hosts: dbs
-    roles:
-      - install_MariaDB
-      - install_galeracluster
-      - config_MariaDB
-    tags:
-      - install_galera
+  #- hosts: haproxy
+    #roles:
+        #- haproxy_install
+    #tags: 
+      #- haproxy_install
+#
+  #- hosts: haproxy
+    #roles:
+        #- haproxy_config
+    #tags:
+      #- haproxy_config
+#      
+  #- hosts: dbs
+    #roles:
+      #- install_MariaDB
+      #- install_galeracluster
+      #- config_MariaDB
+    #tags:
+      #- install_galera

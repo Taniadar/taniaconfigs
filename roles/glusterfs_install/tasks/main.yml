@@ -1,26 +1,34 @@
 ---
-- name: Ensure dependencies are installed.
-  shell: dnf install centos-release-gluster -y
+  - name: instal·lar repo gluster9
+    shell: dnf -y install centos-release-gluster9
 
-#- name: Enable PowerTools
-  #shell: dnf config-manager --set-enabled PowerTools
+  - name: deshabilitar repo gluster9 per defecte
+    shell: sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/CentOS-Gluster-9.repo 
 
-- name: Ensure Gluster packages are installed.
-  yum:
-    name:
-      - glusterfs-server
-      #- glusterfs-client
-    state: present
+  - name: instal·lació glusterfs des del repo gluster9
+    shell: dnf --enablerepo=centos-gluster9,powertools -y install glusterfs-server   
 
-- name: Start and enable GlusterFS
-  shell: systemctl enable --now glusterd
+  - name: install glusterfs-server
+    yum: 
+      name={{ packages }}
+      state=present
+      update_cache=yes
+    vars:
+        packages:
+          - glusterfs-server
 
-- name: Allow GlusterFS on Firewall
-  shell: firewall-cmd --add-service=glusterfs --permanent
+  - name: Servei glusterd enabled
+    shell: systemctl enable --now glusterd
 
-- name: Allow GlusterFS on Firewall
-  shell: systemctl enable --now glusterd
+  - name: Afegir servei glusterd a firewalld
+    shell: firewall-cmd --add-service=glusterfs
 
+  - name: Fer la regla anteriors permanent
+    shell: firewall-cmd --runtime-to-permanent  
 
+  - name: Servei glusterd started
+    service: 
+      name: glusterd
+      state: started  
 
 
