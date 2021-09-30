@@ -10,7 +10,7 @@ Al primer node executem
 
 Per a veure els nodes registrats:
 
-     mysql -u root -p -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
+     mysql -u root -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 
 Arranquem servei dels altres dos nodes:
 

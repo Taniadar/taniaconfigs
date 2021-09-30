@@ -1,5 +1,11 @@
 ---
   ntp_timezone: "Europe/Madrid"
   remote_user: "root"
-  ip_nfs: "10.1.1.118"
+  ip_nfs: "10.1.1.35"
+  paquets_basics:
+    - tmux
+    - vim 
+    - htop
+    - rsync
+    - git
         

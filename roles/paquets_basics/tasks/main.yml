@@ -1,0 +1,8 @@
+---
+  - name: Paquets bàsics a instal·lar
+    yum: 
+      name={{ paquets_basics }}
+      state=present
+      update_cache=yes
+
+          

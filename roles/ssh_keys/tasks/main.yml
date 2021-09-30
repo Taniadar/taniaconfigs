@@ -7,5 +7,6 @@
     with_file:
       - keys/id_rsa_joraman.pub
       - keys/id_rsa_tania.pub
+      - keys/id_rsa_torre1.pub
     tags:
       - add_sshkeys

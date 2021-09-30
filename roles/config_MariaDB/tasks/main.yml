@@ -16,3 +16,57 @@
      - keys/id_rsa_db1.pub
      - keys/id_rsa_db2.pub
      - keys/id_rsa_db3.pub
+
+ - name: Copiar claus db1
+   file:
+    src: keys/id_rsa_db1.pub
+    dest: /root/.ssh/id_rsa.pub
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db1"
+
+ - name: Copiar claus priv db1
+   file:
+    src: keys/private_key_db1
+    dest: /root/.ssh/id_rsa
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db1" 
+
+ - name: Copiar claus db2
+   file:
+    src: keys/id_rsa_db2.pub
+    dest: /root/.ssh/id_rsa.pub
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db2"
+
+ - name: Copiar claus priv db2
+   file:
+    src: keys/private_key_db2
+    dest: /root/.ssh/id_rsa
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db2"
+
+ - name: Copiar claus db3
+   file:
+    src: keys/id_rsa_db3.pub
+    dest: /root/.ssh/id_rsa.pub
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db3"
+
+ - name: Copiar claus priv db3
+   file:
+    src: keys/private_key_db3
+    dest: /root/.ssh/id_rsa
+    mode: 0600
+    owner: root
+    group: root
+   when: inventory_hostname == "db3"   

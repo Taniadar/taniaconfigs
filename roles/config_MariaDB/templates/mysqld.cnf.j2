@@ -29,10 +29,11 @@ symbolic-links=0
 # Mandatory settings
 wsrep_on=ON
 wsrep_provider= /usr/lib64/galera/libgalera_smm.so
-wsrep_cluster_address= "gcomm://10.1.1.183,10.1.1.52,10.1.1.244" 
+wsrep_cluster_address= "gcomm://10.1.1.242,10.1.1.57,10.1.1.23" 
 binlog_format=row
 default_storage_engine=InnoDB
 innodb_autoinc_lock_mode=2
+innodb_buffer_pool_size=64M
 wsrep_cluster_name="Galera_cluster"
 wsrep_node_name={{ inventory_hostname }}
 wsrep_node_address="{{ ansible_eth0.ipv4.address }}"

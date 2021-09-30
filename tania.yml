@@ -4,13 +4,14 @@
       - ssh_keys
       - time_zone
       - set_hostname
+      - paquets_basics
     tags:
       - basic
-#
+
   - hosts: storage
     roles:
         - nfs_export
-        - glusterfs_install
+        #- glusterfs_install
     tags:
       - install_gfs
 
@@ -25,22 +26,22 @@
     tags:
       - apache
 
-  #- hosts: haproxy
-    #roles:
-        #- haproxy_install
-    #tags: 
-      #- haproxy_install
-#
+  - hosts: haproxy
+    roles:
+        - haproxy_install
+    tags: 
+      - haproxy_install
+
   - hosts: haproxy
     roles:
         - haproxy_config
     tags:
       - haproxy_config
-#      
+    
   - hosts: dbs
     roles:
       - install_MariaDB
-      - install_galeracluster
-      - config_MariaDB
+      #- install_galeracluster
+      #- config_MariaDB
     tags:
       - install_galera
