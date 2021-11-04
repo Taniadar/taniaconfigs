@@ -17,9 +17,9 @@
 
   - hosts: front,back
     roles: 
-        #- install_apache
-        - nfs_client
-        #- packages_front_back
+        - install_apache
+        #- nfs_client
+        - packages_front_back
         #- composer
         #- vhosts_httpd
         #- install_nodejs
@@ -40,8 +40,8 @@
     
   - hosts: dbs
     roles:
-      - install_MariaDB
+      #- install_MariaDB
       #- install_galeracluster
-      #- config_MariaDB
+      - config_MariaDB
     tags:
       - install_galera

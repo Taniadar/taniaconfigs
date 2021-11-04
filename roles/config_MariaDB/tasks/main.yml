@@ -7,6 +7,14 @@
     owner: root
     group: root
 
+ - name: Set-up /etc/my.cnf.d/client.cnf 
+   template: 
+    src: templates/client.cnf.j2
+    dest: /etc/my.cnf.d/client.cnf
+    mode: 0644
+    owner: root
+    group: root
+
  - name: Set authorized_keys admin keys
    authorized_key:
      user: '{{ remote_user }}'

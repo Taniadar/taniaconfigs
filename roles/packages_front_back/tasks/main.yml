@@ -53,6 +53,7 @@
       - php72-php-pdo-dblib
       - php-bcmath
       - php-soap
+      - php72-php-pecl-redis5
       - php72-php-pecl-mcrypt
       #- php-phpseclib
       #- php-pear-math-bigintege
@@ -97,6 +98,12 @@
          - glibc-langpack-ca
          - glibc-langpack-es
          - lftp
+         - wget
+         - make
+         
+
+  - name: Install redis using pecl       
+    shell: yes '' | pecl install redis
          
   - name: Update all packages to the latest version
     yum:

@@ -1,4 +1,10 @@
-- name: Install HA
-  yum:
-    name: haproxy
-    state: present
+---
+  #- name: Install HA
+    #yum:
+      #name: haproxy
+      #state: present
+
+  - name: Install wireshark-cli
+    yum:
+      name: wireshark-cli
+      state: present

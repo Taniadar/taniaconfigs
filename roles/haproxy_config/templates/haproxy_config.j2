@@ -20,7 +20,7 @@ defaults
     log global
     mode    http
 #   option  httplog
-    option  dontlognull
+    #option  dontlognull
         timeout connect 5000
         timeout client  50m
         timeout server  50m
@@ -41,7 +41,7 @@ listen stats
 frontend apaches
    bind *:80
    mode http
-   use_backend front-test if { hdr(host) -i front-test.basecamp.lab }
+   #use_backend front-test if { hdr(host) -i front-test.basecamp.lab }
    use_backend front-test if { hdr(host) -i test-tradeenergy.basecamp.lab }
    use_backend front-test if { hdr(host) -i test-crm.basecamp.lab }
    use_backend front-test if { hdr(host) -i test-customerweb.basecamp.lab }
@@ -49,22 +49,22 @@ frontend apaches
 
 backend front-test
    balance roundrobin
-   server front1 front1.basecamp.lab:80 check
-   server front2 front2.basecamp.lab:80 check
-   server front3 front3.basecamp.lab:80 check
+   server front1 front1.basecamp.lab:80 check weight 1
+   server front2 front2.basecamp.lab:80 check weight 1
+   server front3 front3.basecamp.lab:80 check weight 1
 
 backend back-test
    balance roundrobin
-   server back1 back1.basecamp.lab:80 check
-   server back2 back2.basecamp.lab:80 check
-   server back3 back3.basecamp.lab:80 check
+   server back1 back1.basecamp.lab:80 check weight 1
+   server back2 back2.basecamp.lab:80 check weight 1
+   server back3 back3.basecamp.lab:80 check weight 1
 
 listen galera-cluster
     bind *:3306
     mode tcp
-    balance leastconn
+    option tcpka
+    balance roundrobin
     default-server inter 2s downinter 5s rise 3 fall 2 slowstart 60s maxconn 256 maxqueue 128 weight 100
-
     server db1 db1.basecamp.lab:3306 check weight 1
     server db2 db2.basecamp.lab:3306 check weight 1
     server db3 db3.basecamp.lab:3306 check weight 1

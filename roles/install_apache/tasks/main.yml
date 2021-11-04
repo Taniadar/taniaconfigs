@@ -34,6 +34,14 @@
       group: root
       mode: 0644
 
+  - name: Copy 99-redis.ini
+    template:
+      src: templates/99-redis.ini.j2
+      dest: /etc/php.d/99-redis.ini
+      owner: root
+      group: root
+      mode: 0644
+
   - name: Create firewall rule for apache service
     firewalld:
       service: http
